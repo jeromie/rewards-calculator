@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --dark-1: #0e1726;
+    --dark-2: #171f2f;
+    --border-width: 2px;
+}
+
+body  {
+    min-height: 100vh;
+    
+    font-family: "Josefin Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    background-color: var(--dark-1);
+    background-image: url('/images/pattern-1.svg');
+    background-size: cover;
+}
