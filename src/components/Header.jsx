@@ -1,4 +1,4 @@
-import React from "react"
+import PropTypes from "prop-types"
 import styled from "styled-components"
 
 const Header = ({ value, setValue }) => {
@@ -32,6 +32,11 @@ const Header = ({ value, setValue }) => {
             </div>
         </HeaderWrapper>
     )
+}
+
+Header.propTypes = {
+    value: PropTypes.string,
+    setValue: PropTypes.func
 }
 
 export default Header

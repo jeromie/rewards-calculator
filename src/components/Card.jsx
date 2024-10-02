@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components'
-import React from 'react';
+import Tooltip from './Tooltip';
+import { FlexDiv } from '../utils/helpers';
+import { LiaInfoCircleSolid } from 'react-icons/lia';
 
 const Card = ({ info, value, isListView }) => {
-    const { img, cat, name, per, points, miles, accelerator, isMiles, isCashback, isHotel, acceleratedType } = info;
+    const { img, cat, name, per, points, miles, accelerator, isMiles, isCashback, isHotel, acceleratedType, additionalInfo } = info;
 
     const earnedPoints = Math.floor(value / per * points)
     const acceleratedPoints = Math.floor(value / per * points * accelerator)
@@ -16,7 +18,7 @@ const Card = ({ info, value, isListView }) => {
 
     return (
         <CardWrapper
-            isListView={isListView}
+            $isListView={isListView}
             className={`card border border-neutral-700 flex items-center justify-center p-4 pb-1 w-full ${isListView ? 'flex-col sm:flex-row pt-0 pb-0' : 'max-w-sm flex-col pt-0'}`}
         >
             <div className={`flex ${isListView ? 'w-60 items-center' : ' flex-col items-center'}`}>
@@ -50,10 +52,21 @@ const Card = ({ info, value, isListView }) => {
                 : (
                     <table className='text-center reward-table m-2'>
                         <thead className='border-b border-neutral-700'>
-                            <tr className='text-slate-400  text-xs'>
+                            <tr className='text-slate-400 text-xs'>
                                 <th></th>
                                 <th>Regular</th>
-                                <th>{acceleratedType}</th>
+                                <th>
+                                    <FlexDiv className='items-center justify-center gap-1'>
+                                        {acceleratedType}
+                                        {additionalInfo && (
+                                            <Tooltip content={additionalInfo} maxWidth='200px'>
+                                                <span className='relative bottom-0.5'>
+                                                    <LiaInfoCircleSolid size='1.35em' />
+                                                </span>
+                                            </Tooltip>
+                                        )}
+                                    </FlexDiv>
+                                </th>
                             </tr>
                         </thead>
                         <tbody className='text-slate-300'>
@@ -89,8 +102,8 @@ Card.propTypes = {
 
 export default Card
 
-const CardWrapper = styled.div<{ isListView: boolean }>`
-    background-color: var(--dark-2);
+const CardWrapper = styled.div`
+    background-color: var(--grey-2);
     cursor: pointer;
     position: relative;
     border-radius: 10px;
@@ -122,7 +135,7 @@ const CardWrapper = styled.div<{ isListView: boolean }>`
         }
     }
 
-    ${({ isListView }) => isListView && `
+    ${({ $isListView }) => $isListView && `
         border: none;
         border-radius: 0;
         .img-wrapper {
@@ -130,8 +143,6 @@ const CardWrapper = styled.div<{ isListView: boolean }>`
             img {
                 max-height: 30px;
                 transform: none;
-                // min-width: 50px;
-                // object-fit: contain;
             }
         }
         h5{

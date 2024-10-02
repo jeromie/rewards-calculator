@@ -96,6 +96,7 @@ export const options = [
     isCashback: true,
     isHotel: false,
     acceleratedType: "Specific Merchants",
+    additionalInfo: "hellooooo",
   },
   //   {
   //     cat: "SBI",
