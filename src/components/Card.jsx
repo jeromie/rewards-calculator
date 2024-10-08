@@ -3,9 +3,13 @@ import styled from 'styled-components'
 import Tooltip from './Tooltip';
 import { FlexDiv } from '../utils/helpers';
 import { LiaInfoCircleSolid } from 'react-icons/lia';
+import { useState } from 'react';
+import Dialog from './Dialog';
 
 const Card = ({ info, value, isListView }) => {
     const { img, cat, name, per, points, miles, accelerator, isMiles, isCashback, isHotel, acceleratedType, additionalInfo } = info;
+
+    const [isDialogVisible, setIsDialogVisible] = useState(false)
 
     const earnedPoints = Math.floor(value / per * points)
     const acceleratedPoints = Math.floor(value / per * points * accelerator)
@@ -17,80 +21,91 @@ const Card = ({ info, value, isListView }) => {
     const rewardText = isMiles ? 'Miles' : isCashback ? 'Cashback' : isHotel ? 'Hotels' : 'Reward'
 
     return (
-        <CardWrapper
-            $isListView={isListView}
-            className={`card border border-neutral-700 flex items-center justify-center p-4 pb-1 w-full ${isListView ? 'flex-col sm:flex-row pt-0 pb-0' : 'max-w-sm flex-col pt-0'}`}
-        >
-            <div className={`flex ${isListView ? 'w-60 items-center' : ' flex-col items-center'}`}>
-                <div className='img-wrapper'>
-                    <img src={img} alt='card image' className='rounded border-neutral-700 border' />
+        <>
+            <CardWrapper
+                onClick={()=>setIsDialogVisible(true)}
+                $isListView={isListView}
+                className={`card border border-slate-700 flex items-center justify-center p-4 pb-1 w-full ${isListView ? 'flex-col sm:flex-row pt-0 pb-0' : 'max-w-sm flex-col pt-0'}`}
+            >
+                <div className={`flex ${isListView ? 'w-60 items-center' : ' flex-col items-center'}`}>
+                    <div className='img-wrapper'>
+                        <img src={img} alt='card image' className='rounded border-neutral-700 border' aria-hidden />
+                    </div>
+                    <h5 className='text-lg font-bold mt-2 text-white flex-1'>
+                        {cat} {name}
+                    </h5>
                 </div>
-                <h5 className='text-lg font-bold mt-2 text-white flex-1'>
-                    {cat} {name}
-                </h5>
-            </div>
 
-            {isListView ?
-                (
-                    <table className='reward-table m-2 table-fixed'>
-                        <tbody className='text-slate-300'>
-                            <tr className='border-b border-neutral-700'>
-                                <td className='text-left text-slate-400'>Regular</td>
-                                <td >{earnedPoints} points</td>
-                                <td >{isCashback && '₹'}{earnedRewards} {rewardText}</td>
-                                <td >{earnedRate}%</td>
-                            </tr>
-                            <tr>
-                                <td className='text-left text-slate-400'> {acceleratedType}</td>
-                                <td>{acceleratedPoints} points</td>
-                                <td>{isCashback && '₹'}{acceleratedRewards} {rewardText}</td>
-                                <td>{acceleratedRate}%</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                )
-                : (
-                    <table className='text-center reward-table m-2'>
-                        <thead className='border-b border-neutral-700'>
-                            <tr className='text-slate-400 text-xs'>
-                                <th></th>
-                                <th>Regular</th>
-                                <th>
-                                    <FlexDiv className='items-center justify-center gap-1'>
-                                        {acceleratedType}
-                                        {additionalInfo && (
-                                            <Tooltip content={additionalInfo} maxWidth='200px'>
-                                                <span className='relative bottom-0.5'>
-                                                    <LiaInfoCircleSolid size='1.35em' />
-                                                </span>
-                                            </Tooltip>
-                                        )}
-                                    </FlexDiv>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody className='text-slate-300'>
-                            <tr className='border-b border-neutral-700'>
-                                <td className='text-left text-slate-400'>Points</td>
-                                <td>{earnedPoints}</td>
-                                <td>{acceleratedPoints}</td>
-                            </tr>
-                            <tr className='border-b border-neutral-700'>
-                                <td className='text-left text-slate-400'>{rewardText}</td>
-                                <td >{earnedRewards}</td>
-                                <td >{acceleratedRewards}</td>
-                            </tr>
-                            <tr>
-                                <td className='text-left text-slate-400'>Reward rate</td>
-                                <td>{earnedRate}%</td>
-                                <td>{acceleratedRate}%</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                )
-            }
+                {isListView ?
+                    (
+                        <table className='reward-table m-2 table-fixed'>
+                            <tbody className='text-slate-300'>
+                                <tr className='border-b border-neutral-700'>
+                                    <td className='text-left text-slate-400'>Regular Spends</td>
+                                    <td >{earnedPoints} points</td>
+                                    <td >{isCashback && '₹'}{earnedRewards} {rewardText}</td>
+                                    <td >{earnedRate}%</td>
+                                </tr>
+                                <tr>
+                                    <td className='text-left text-slate-400'> {acceleratedType}</td>
+                                    <td>{acceleratedPoints} points</td>
+                                    <td>{isCashback && '₹'}{acceleratedRewards} {rewardText}</td>
+                                    <td>{acceleratedRate}%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    )
+                    : (
+                        <table className='text-center reward-table m-2'>
+                            <thead className='border-b border-neutral-700'>
+                                <tr className='text-slate-400 text-xs'>
+                                    <th></th>
+                                    <th>Regular Spends</th>
+                                    <th>
+                                        <FlexDiv className='items-center justify-center gap-1'>
+                                            {acceleratedType}
+                                            {additionalInfo && (
+                                                <Tooltip content={additionalInfo} maxWidth='200px'>
+                                                    <span className='relative bottom-0.5'>
+                                                        <LiaInfoCircleSolid size='1.35em' />
+                                                    </span>
+                                                </Tooltip>
+                                            )}
+                                        </FlexDiv>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody className='text-slate-300'>
+                                <tr className='border-b border-neutral-700'>
+                                    <td className='text-left text-slate-400'>Points</td>
+                                    <td>{earnedPoints}</td>
+                                    <td>{acceleratedPoints}</td>
+                                </tr>
+                                <tr className='border-b border-neutral-700'>
+                                    <td className='text-left text-slate-400'>{rewardText}</td>
+                                    <td >{earnedRewards}</td>
+                                    <td >{acceleratedRewards}</td>
+                                </tr>
+                                <tr>
+                                    <td className='text-left text-slate-400'>Reward rate</td>
+                                    <td>{earnedRate}%</td>
+                                    <td>{acceleratedRate}%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    )
+                }
 
-        </CardWrapper>
+            </CardWrapper>
+
+            {isDialogVisible && (
+                <Dialog 
+                    title={cat + ' ' + name} 
+                    onClose={()=>setIsDialogVisible(false)} 
+                    info={info}
+                />
+            )}
+        </>
     )
 }
 
@@ -102,7 +117,7 @@ Card.propTypes = {
 
 export default Card
 
-const CardWrapper = styled.div`
+const CardWrapper = styled.button`
     background-color: var(--grey-2);
     cursor: pointer;
     position: relative;
@@ -123,7 +138,6 @@ const CardWrapper = styled.div`
             transform: rotateX(10deg) translateZ(30px) translateX(-20px);
             transform-origin: 0 0;
             max-height: 70px;
-            /* box-shadow: -5px 5px 5px 0px hsl(0deg 0% 22.32% / 50%); */
         }
     }
 

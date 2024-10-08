@@ -3,6 +3,7 @@ import CardsView from './components/CardsView';
 import { useState } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import styled from 'styled-components';
 
 function App() {
 
@@ -12,9 +13,9 @@ function App() {
     <>
       <Header setValue={setValue} value={value} />
 
-      <div className='container mx-auto p-8'>
+      <ContentWrapper className='container mx-auto p-8'>
         <CardsView results={options} value={value} />
-      </div>
+      </ContentWrapper>
 
       <Footer />
     </>
@@ -22,3 +23,7 @@ function App() {
 }
 
 export default App
+
+const ContentWrapper = styled.div`
+  min-height: calc(100vh - 160px - 50px);
+`;
