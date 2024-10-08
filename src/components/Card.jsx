@@ -25,20 +25,20 @@ const Card = ({ info, value, isListView }) => {
             <CardWrapper
                 onClick={()=>setIsDialogVisible(true)}
                 $isListView={isListView}
-                className={`card border border-slate-700 flex items-center justify-center p-4 pb-1 w-full ${isListView ? 'flex-col sm:flex-row pt-0 pb-0' : 'max-w-sm flex-col pt-0'}`}
+                className={`card border border-slate-700 flex  justify-center p-4 pb-1 w-full ${isListView ? 'flex-col sm:flex-row pt-3 sm:pt-0 pb-0 items-start sm:items-center' : 'max-w-sm flex-col pt-0 items-start sm:items-center'}`}
             >
-                <div className={`flex ${isListView ? 'w-60 items-center' : ' flex-col items-center'}`}>
+                <div className={`flex ${isListView ? 'sm:w-60 items-end justify-start sm:items-center ' : ' sm:flex-col items-center'}`}>
                     <div className='img-wrapper'>
                         <img src={img} alt='card image' className='rounded border-neutral-700 border' aria-hidden />
                     </div>
-                    <h5 className='text-lg font-bold mt-2 text-white flex-1'>
+                    <h5 className={`text-md sm:text-lg ml-2 sm:ml-0 font-bold mt-2 text-white flex-1 text-left  ${!isListView ? 'sm:text-center' : ''}`}>
                         {cat} {name}
                     </h5>
                 </div>
 
                 {isListView ?
                     (
-                        <table className='reward-table m-2 table-fixed'>
+                        <table className='reward-table mx-0 sm:mx-2 my-2 table-fixed'>
                             <tbody className='text-slate-300'>
                                 <tr className='border-b border-neutral-700'>
                                     <td className='text-left text-slate-400'>Regular Spends</td>
@@ -127,6 +127,9 @@ const CardWrapper = styled.button`
     .reward-table {
         font-size: 14px;
         width: 100%;
+        @media (max-width: 767px){
+            font-size: 12px;
+        }
     }
 
     .img-wrapper {
@@ -138,6 +141,9 @@ const CardWrapper = styled.button`
             transform: rotateX(10deg) translateZ(30px) translateX(-20px);
             transform-origin: 0 0;
             max-height: 70px;
+            @media (max-width: 767px){
+                max-height: 50px;
+            }
         }
     }
 

@@ -36,9 +36,9 @@ export default function Dialog({
                             style={contentStyle}
                             top={top}
                         >
-                            <FlexDiv className='gap-5 items-start'>
+                            <FlexDiv className='gap-5 flex-col sm:flex-row items-start overflow-auto'>
                                 {info.img ? (
-                                    <ImgWrapper className='DialogImgWrapper overflow-hidden rounded-lg'>
+                                    <ImgWrapper className='DialogImgWrapper rounded-lg items-start sm:items-center'>
                                         <img
                                             className='DialogImg rounded-lg'
                                             src={info.img}
@@ -210,7 +210,6 @@ const Description = styled(D.Description)`
 
 const ImgWrapper = styled(FlexDiv)`
     flex-direction: column;
-    align-items: center;
     justify-content: center;
     gap: 8px;
 `;

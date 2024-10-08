@@ -5,12 +5,15 @@ const Header = ({ value, setValue }) => {
 
     const onChange = (e) => {
         setValue(e.target.value)
+        if(e.target.value === '') {
+            setValue('0')
+        }
     }
     return (
         <HeaderWrapper>
-            <div className='flex flex-col md:flex-row justify-between items-center w-full'>
-                <h1 className="">Reward Points<br />Calculator</h1>
-                <div className='flex flex-col items-end pr-4'>
+            <div className='flex flex-col sm:flex-row justify-between items-center w-full'>
+                <h1 className="">Reward Points Calculator</h1>
+                <div className='flex flex-col items-center sm:items-end pt-5 sm:pr-4'>
                     <label>
                         Transaction Amount
                     </label>
@@ -24,7 +27,6 @@ const Header = ({ value, setValue }) => {
                             onChange={onChange}
                             min='0'
                             type='number'
-                            placeholder='Enter amount'
                             className=' text-white bg-transparent'
                         />
                     </div>
@@ -62,13 +64,7 @@ const HeaderWrapper = styled.header`
         top: 10px;
         width: 600px;
         flex: 1;
-        @media (max-width: 767px) {
-            font-size: 40px;
-            line-height: 45px;
-            width: 100%;
-            letter-spacing: -2px;
-            text-align: center;
-        }
+        max-width: 650px;
     }
 
     label {
@@ -115,5 +111,32 @@ const HeaderWrapper = styled.header`
         0%{background-position:0% 50%}
         50%{background-position:100% 50%}
         100%{background-position:0% 50%}
+    }
+
+    @media (max-width: 767px) {
+        height: 140px;
+        h1 {
+            font-size: 30px;
+            line-height: 1.2;
+            width: 100%;
+            letter-spacing: -2px;
+            text-align: center;
+            max-width: none;
+        }
+
+        label {
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        input {
+            font-size: 60px;
+        }
+        .amount-input span{
+            font-size: 60px;
+        }
+        .curr-symbl{
+            font-size: 38px;
+        }
     }
 `

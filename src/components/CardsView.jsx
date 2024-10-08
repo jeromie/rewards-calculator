@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 // Toggle button for switching views
 const ViewToggleButton = ({ active, onClick, label, classes }) => (
     <button
-        className={` ${classes} ${!active ? 'bg-sky-700 text-white' : 'bg-sky-950 text-cyan-800'} p-1 px-3 mb-10 rounded`}
+        className={` ${classes} ${!active ? 'bg-sky-700 text-white' : 'bg-sky-950 text-cyan-800'} p-1 px-3 mb-6 sm:mb-10 rounded`}
         onClick={onClick}
         disabled={active}
     >
@@ -26,7 +26,7 @@ const CardsView = ({ results, value }) => {
     return (
         <>
             <div className='flex justify-center'>
-            <ViewToggleButton
+                <ViewToggleButton
                     active={isListView}
                     onClick={() => setIsListView(true)}
                     label="List view"
@@ -39,7 +39,7 @@ const CardsView = ({ results, value }) => {
                     classes='rounded-tl-none rounded-bl-none'
                 />
             </div>
-            <div className={`flex flex-wrap justify-center ${isListView ? 'gap-1' : 'gap-6'}`}>
+            <div className={`flex flex-wrap justify-center ${isListView ? 'gap-2 sm:gap-1' : 'gap-6'}`}>
                 {results.map((data, index) => {
                     return (
                         <React.Fragment key={index}>

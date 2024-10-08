@@ -13,7 +13,7 @@ function App() {
     <>
       <Header setValue={setValue} value={value} />
 
-      <ContentWrapper className='container mx-auto p-8'>
+      <ContentWrapper className='container mx-auto p-5 sm:p-8'>
         <CardsView results={options} value={value} />
       </ContentWrapper>
 
