@@ -4,8 +4,12 @@ import { useState } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import styled from 'styled-components';
+import ReactGA from 'react-ga4';
 
 function App() {
+
+  ReactGA.initialize("G-E7XXFKEYHG");
+  ReactGA.send({ hitType: "pageview", page: "/", title: "Home" });
 
   const [value, setValue] = useState('1000')
 

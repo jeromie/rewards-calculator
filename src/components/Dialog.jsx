@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { FlexDiv } from '../utils/helpers';
 import { FaTimes } from 'react-icons/fa';
 import parse from 'html-react-parser';
+import ReactGA from 'react-ga4';
 
 export default function Dialog({
     title = '',
@@ -19,6 +20,12 @@ export default function Dialog({
     contentStyle = {},
     info,
 }) {
+
+    ReactGA.event({
+        category: "Card view",
+        action: "Dialog opened",
+        label: title,
+    });
 
     return (
         <D.Root open={true} className='DialogRoot'>
