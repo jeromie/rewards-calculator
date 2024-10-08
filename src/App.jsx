@@ -8,8 +8,10 @@ import ReactGA from 'react-ga4';
 
 function App() {
 
-  ReactGA.initialize("G-E7XXFKEYHG");
-  ReactGA.send({ hitType: "pageview", page: "/", title: "Home" });
+  var host = window.location.hostname;
+    if(host != "localhost") {
+      ReactGA.initialize("G-E7XXFKEYHG");
+    }
 
   const [value, setValue] = useState('1000')
 

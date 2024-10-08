@@ -10,6 +10,12 @@ const Footer = () => {
             </div>
             <BottomFooter className="border-t border-t-slate-700 text-slate-400 p-4 mt-2">
                 All Rights Reserved 2024
+
+                <div className="my-2">
+                <a href='https://buymeacoffee.com/cluelesscoder' target="_blank" className="underline text-slate-400">
+                    Buy me a Coffee ☕️ / Beer 🍺
+                </a>
+                </div>
             </BottomFooter>
         </Wrapper>
     )
