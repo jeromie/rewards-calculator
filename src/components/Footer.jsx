@@ -1,6 +1,14 @@
 import styled from "styled-components";
+import ReactGA from 'react-ga4';
 
 const Footer = () => {
+
+    const onDonateClick = () => {
+        ReactGA.event({
+            category: 'click',
+            action: 'donate_click',
+        });
+    }
     return(
         <Wrapper className="text-xs text-center text-slate-500">
             <div className="p-3">
@@ -12,7 +20,7 @@ const Footer = () => {
                 All Rights Reserved 2024
 
                 <div className="my-2">
-                <a href='https://buymeacoffee.com/cluelesscoder' target="_blank" className="underline text-slate-400">
+                <a href='https://buymeacoffee.com/cluelesscoder' onClick={onDonateClick} target="_blank" className="underline text-slate-400">
                     Buy me a Coffee ☕️ / Beer 🍺
                 </a>
                 </div>

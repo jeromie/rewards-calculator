@@ -5,7 +5,6 @@ import { FlexDiv } from '../utils/helpers';
 import { FaTimes } from 'react-icons/fa';
 import parse from 'html-react-parser';
 import ReactGA from 'react-ga4';
-
 export default function Dialog({
     title = '',
     onClose = undefined,
@@ -17,15 +16,25 @@ export default function Dialog({
     imgWidth = '160',
     imgHeight = 'auto',
     top = '50%',
-    contentStyle = {},
     info,
+    desc,
 }) {
 
-    ReactGA.event({
-        category: "Card view",
-        action: "Dialog opened",
-        label: title,
-    });
+    const onApplyClick = () => {
+        ReactGA.event({
+            category: 'click',
+            action: 'apply_click',
+            label: title
+        });
+    }
+
+    const onDetailsClick = () => {
+        ReactGA.event({
+            category: 'click',
+            action: 'details_click',
+            label: title
+        });
+    }
 
     return (
         <D.Root open={true} className='DialogRoot'>
@@ -40,96 +49,106 @@ export default function Dialog({
                             width={width}
                             $maxWidth={maxWidth}
                             $maxHeight={maxHeight}
-                            style={contentStyle}
                             top={top}
                         >
-                            <FlexDiv className='gap-5 flex-col sm:flex-row items-start overflow-auto'>
-                                {info.img ? (
-                                    <ImgWrapper className='DialogImgWrapper rounded-lg items-start sm:items-center'>
-                                        <img
-                                            className='DialogImg rounded-lg'
-                                            src={info.img}
-                                            alt={imgAlt || title}
-                                            width={imgWidth}
-                                            height={imgHeight}
-                                        />
-
-                                        {info.referralLink ? (
-                                            <a href={info.referralLink} target='blank' className='text-blue-400 underline hover:text-teal-600'>Apply now</a>
-                                        ): null}
-                                    </ImgWrapper>
-                                ) : null}
-
-                                <div className='flex-1'>
-                                    {title ? (
-                                        <Title className='DialogTitle'>{title}</Title>
-                                    ) : null}
-                                    {info.desc ? (
+                            {children ? (
+                                <>
+                                    <Title className='DialogTitle'>{title}</Title>
+                                    {desc ? (
                                         <Description
                                             className='DialogDescription text-slate-300'
                                         >
-                                            {parse(info.desc)}
+                                            {desc}
                                         </Description>
                                     ) : null}
-                                    {info.fee ? (
-                                        <div className='mb-4'>
-                                            <h5 className='text-sm font-bold'>
-                                                Fee:
-                                            </h5>
-                                            <p className='text-slate-300'>
-                                                {parse(info.fee)}
-                                            </p>
-                                        </div>
+                                    {children}
+                                </>
+                            ) : (
+                                <FlexDiv className='gap-5 flex-col sm:flex-row items-start overflow-auto'>
+                                    {info.img ? (
+                                        <ImgWrapper className='DialogImgWrapper rounded-lg items-start sm:items-center'>
+                                            <img
+                                                className='DialogImg rounded-lg'
+                                                src={info.img}
+                                                alt={imgAlt || title}
+                                                width={imgWidth}
+                                                height={imgHeight}
+                                            />
+
+                                            {info.referralLink ? (
+                                                <a href={info.referralLink} target='_blank' onClick={onApplyClick} className='text-blue-400 underline hover:text-teal-600'>Apply now</a>
+                                            ): null}
+                                        </ImgWrapper>
                                     ) : null}
-                                    {info.rewardInfo ? (
-                                        <div className='mb-4'>
-                                            <h5 className='text-sm font-bold'>
-                                                Reward details:
-                                            </h5>
-                                            <ul className='text-slate-300 pl-5'>
-                                                {info.rewardInfo.map((i, index)=>{
-                                                    return(
-                                                        <li key={index} className='list-disc'>{i}</li>
-                                                    )
-                                                })}
-                                            </ul>
-                                        </div>
-                                    ) : null}
-                                    {info.milestoneInfo.length ? (
-                                        <div className='mb-4'>
-                                            <h5 className='text-sm font-bold'>
-                                                Milestone details:
-                                            </h5>
-                                            <ul className='text-slate-300 pl-5'>
-                                                {info.milestoneInfo.map((i, index)=>{
-                                                    return(
-                                                        <li key={index} className='list-disc'>{i}</li>
-                                                    )
-                                                })}
-                                            </ul>
-                                        </div>
-                                    ) : null}
-                                    {info.siteLink ? (
-                                        <a href={info.siteLink} target='blank' className='text-blue-400 underline hover:text-teal-600'>View more details</a>
-                                    ): null}
-                                </div>
-                            </FlexDiv>
-                            {(
-                                <D.Close asChild className='DialogClose'>
-                                    <Close
-                                        className='DialogCloseButton'
-                                        aria-label='Close dialog'
-                                        onClick={onClose}
-                                    >
-                                        <FaTimes
-                                            height='1.5rem'
-                                            width='1.5rem'
-                                            color='white'
-                                        />
-                                    </Close>
-                                </D.Close>
+
+                                    <div className='flex-1'>
+                                        {title ? (
+                                            <Title className='DialogTitle'>{title}</Title>
+                                        ) : null}
+                                        {info.desc ? (
+                                            <Description
+                                                className='DialogDescription text-slate-300'
+                                            >
+                                                {parse(info.desc)}
+                                            </Description>
+                                        ) : null}
+                                        {info.fee ? (
+                                            <div className='mb-4'>
+                                                <h5 className='text-sm font-bold'>
+                                                    Fee:
+                                                </h5>
+                                                <p className='text-slate-300'>
+                                                    {parse(info.fee)}
+                                                </p>
+                                            </div>
+                                        ) : null}
+                                        {info.rewardInfo ? (
+                                            <div className='mb-4'>
+                                                <h5 className='text-sm font-bold'>
+                                                    Reward details:
+                                                </h5>
+                                                <ul className='text-slate-300 pl-5'>
+                                                    {info.rewardInfo.map((i, index)=>{
+                                                        return(
+                                                            <li key={index} className='list-disc'>{i}</li>
+                                                        )
+                                                    })}
+                                                </ul>
+                                            </div>
+                                        ) : null}
+                                        {info.milestoneInfo.length ? (
+                                            <div className='mb-4'>
+                                                <h5 className='text-sm font-bold'>
+                                                    Milestone details:
+                                                </h5>
+                                                <ul className='text-slate-300 pl-5'>
+                                                    {info.milestoneInfo.map((i, index)=>{
+                                                        return(
+                                                            <li key={index} className='list-disc'>{i}</li>
+                                                        )
+                                                    })}
+                                                </ul>
+                                            </div>
+                                        ) : null}
+                                        {info.siteLink ? (
+                                            <a href={info.siteLink} target='_blank' onClick={onDetailsClick} className='text-blue-400 underline hover:text-teal-600'>View more details</a>
+                                        ): null}
+                                    </div>
+                                </FlexDiv>
                             )}
-                            {children ? children : null}
+                            <D.Close asChild className='DialogClose'>
+                                <Close
+                                    className='DialogCloseButton'
+                                    aria-label='Close dialog'
+                                    onClick={onClose}
+                                >
+                                    <FaTimes
+                                        height='1.5rem'
+                                        width='1.5rem'
+                                        color='white'
+                                    />
+                                </Close>
+                            </D.Close>
                         </Content>
                     </div>
             </D.Portal>
@@ -149,8 +168,8 @@ Dialog.propTypes = {
     imgWidth: PropTypes.number,
     imgHeight: PropTypes.number,
     top: PropTypes.string,
-    contentStyle: PropTypes.object,
-    info: PropTypes.object
+    info: PropTypes.object,
+    desc: PropTypes.string
 }
 
 const Overlay = styled(D.Overlay)`

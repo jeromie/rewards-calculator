@@ -5,9 +5,11 @@ import { FlexDiv } from '../utils/helpers';
 import { LiaInfoCircleSolid } from 'react-icons/lia';
 import { useState } from 'react';
 import Dialog from './Dialog';
+import ReactGA from 'react-ga4';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
-const Card = ({ info, value, isListView }) => {
-    const { img, cat, name, per, points, miles, accelerator, isMiles, isCashback, isHotel, acceleratedType, additionalInfo } = info;
+const Card = ({ info, value, isListView, onEdit, onDelete }) => {
+    const { id, img, cat, name, per, points, miles, accelerator, isMiles, isCashback, isHotel, acceleratedType, additionalInfo, isCustom } = info;
 
     const [isDialogVisible, setIsDialogVisible] = useState(false)
 
@@ -20,21 +22,40 @@ const Card = ({ info, value, isListView }) => {
 
     const rewardText = isMiles ? 'Miles' : isCashback ? 'Cashback' : isHotel ? 'Hotels' : 'Reward'
 
+    const onCardClick = () => {
+        setIsDialogVisible(true)
+        ReactGA.event({
+            category: 'navigation',
+            action: 'card_click',
+            label: cat + '_' + name,
+        });
+    }
+
     return (
         <>
             <CardWrapper
-                onClick={()=>setIsDialogVisible(true)}
+                as={isCustom && 'div'}
+                onClick={isCustom ? undefined : onCardClick}
                 $isListView={isListView}
                 className={`card border border-slate-700 flex  justify-center p-4 pb-1 w-full ${isListView ? 'flex-col sm:flex-row pt-3 sm:pt-0 pb-0 items-start sm:items-center' : 'max-w-sm flex-col pt-0 items-start sm:items-center'}`}
             >
                 <div className={`flex ${isListView ? 'sm:w-60 items-end justify-start sm:items-center ' : ' sm:flex-col items-center'}`}>
-                    <div className='img-wrapper'>
+                    {!isCustom && (
+                        <div className='img-wrapper'>
                         <img src={img} alt='card image' className='rounded border-neutral-700 border' aria-hidden />
                     </div>
-                    <h5 className={`text-md sm:text-lg ml-2 sm:ml-0 font-bold mt-2 text-white flex-1 text-left  ${!isListView ? 'sm:text-center' : ''}`}>
+                    )}
+                    <h2 className={`card-name text-md sm:text-lg ml-2 sm:ml-0 font-bold mt-2 text-white flex-1 text-left  ${!isListView ? 'sm:text-center' : ''}`}>
                         {cat} {name}
-                    </h5>
+                    </h2>
                 </div>
+
+                {isCustom && (
+                    <>
+                        <button onClick={()=> onEdit(id)}><FaEdit /></button>
+                        <button onClick={()=> onDelete(id)}><FaTrash /></button>
+                    </>
+                )}
 
                 {isListView ?
                     (
@@ -112,7 +133,9 @@ const Card = ({ info, value, isListView }) => {
 Card.propTypes = {
     info: PropTypes.object,
     value: PropTypes.string,
-    isListView: PropTypes.bool
+    isListView: PropTypes.bool,
+    onEdit: PropTypes.func,
+    onDelete: PropTypes.func
 }
 
 export default Card
@@ -165,7 +188,7 @@ const CardWrapper = styled.button`
                 transform: none;
             }
         }
-        h5{
+        .card-name{
             font-size: 14px;    
             line-height: 1;
             margin: 0;

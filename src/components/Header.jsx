@@ -1,5 +1,6 @@
 import PropTypes from "prop-types"
 import styled from "styled-components"
+import ReactGA from 'react-ga4';
 
 const Header = ({ value, setValue }) => {
 
@@ -8,13 +9,18 @@ const Header = ({ value, setValue }) => {
         if(e.target.value === '') {
             setValue('0')
         }
+        ReactGA.event({
+            category: 'input',
+            action: 'amount_update',
+            value: Number(e.target.value),
+        });
     }
     return (
         <HeaderWrapper>
             <div className='flex flex-col sm:flex-row justify-between items-center w-full'>
                 <h1 className="">Reward Points Calculator</h1>
                 <div className='flex flex-col items-center sm:items-end pt-5 sm:pr-4'>
-                    <label>
+                    <label htmlFor='transAmnt'>
                         Transaction Amount
                     </label>
                     <div className='flex amount-input gap-1 items-baseline'>
@@ -28,6 +34,7 @@ const Header = ({ value, setValue }) => {
                             min='0'
                             type='number'
                             className=' text-white bg-transparent'
+                            id="transAmnt"
                         />
                     </div>
                 </div>
@@ -87,6 +94,7 @@ const HeaderWrapper = styled.header`
         }
         &[type=number] {
             -moz-appearance: textfield;
+            appearance: textfield;
         }
         &:focus {
             outline: none;
