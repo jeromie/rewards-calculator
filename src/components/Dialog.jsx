@@ -39,118 +39,118 @@ export default function Dialog({
     return (
         <D.Root open={true} className='DialogRoot'>
             <D.Portal className='DialogPortal'>
-                    <div>
-                        <Overlay
-                            className='DialogOverlay'
-                            onClick={onClose}
-                        />
-                        <Content
-                            className='DialogContent bg-slate-800 border border-slate-700 rounded-xl'
-                            width={width}
-                            $maxWidth={maxWidth}
-                            $maxHeight={maxHeight}
-                            top={top}
-                        >
-                            {children ? (
-                                <>
-                                    <Title className='DialogTitle'>{title}</Title>
-                                    {desc ? (
+                <div>
+                    <Overlay
+                        className='DialogOverlay'
+                        onClick={onClose}
+                    />
+                    <Content
+                        className='DialogContent bg-slate-800 border border-slate-700 rounded-xl'
+                        width={width}
+                        $maxWidth={maxWidth}
+                        $maxHeight={maxHeight}
+                        top={top}
+                    >
+                        {children ? (
+                            <>
+                                <Title className='DialogTitle'>{title}</Title>
+                                {desc ? (
+                                    <Description
+                                        className='DialogDescription text-slate-300'
+                                    >
+                                        {desc}
+                                    </Description>
+                                ) : null}
+                                {children}
+                            </>
+                        ) : (
+                            <FlexDiv className='gap-5 flex-col sm:flex-row items-start'>
+                                {info.img ? (
+                                    <ImgWrapper className='DialogImgWrapper rounded-lg items-start sm:items-center'>
+                                        <img
+                                            className='DialogImg rounded-lg'
+                                            src={info.img}
+                                            alt={imgAlt || title}
+                                            width={imgWidth}
+                                            height={imgHeight}
+                                        />
+
+                                        {info.referralLink ? (
+                                            <a href={info.referralLink} target='_blank' onClick={onApplyClick} className='text-blue-400 underline hover:text-teal-600'>Apply now</a>
+                                        ) : null}
+                                    </ImgWrapper>
+                                ) : null}
+
+                                <div className='flex-1'>
+                                    {title ? (
+                                        <Title className='DialogTitle'>{title}</Title>
+                                    ) : null}
+                                    {info.desc ? (
                                         <Description
                                             className='DialogDescription text-slate-300'
                                         >
-                                            {desc}
+                                            {parse(info.desc)}
                                         </Description>
                                     ) : null}
-                                    {children}
-                                </>
-                            ) : (
-                                <FlexDiv className='gap-5 flex-col sm:flex-row items-start overflow-auto'>
-                                    {info.img ? (
-                                        <ImgWrapper className='DialogImgWrapper rounded-lg items-start sm:items-center'>
-                                            <img
-                                                className='DialogImg rounded-lg'
-                                                src={info.img}
-                                                alt={imgAlt || title}
-                                                width={imgWidth}
-                                                height={imgHeight}
-                                            />
-
-                                            {info.referralLink ? (
-                                                <a href={info.referralLink} target='_blank' onClick={onApplyClick} className='text-blue-400 underline hover:text-teal-600'>Apply now</a>
-                                            ): null}
-                                        </ImgWrapper>
+                                    {info.fee ? (
+                                        <div className='mb-4'>
+                                            <h5 className='text-sm font-bold'>
+                                                Fee:
+                                            </h5>
+                                            <p className='text-slate-300'>
+                                                {parse(info.fee)}
+                                            </p>
+                                        </div>
                                     ) : null}
-
-                                    <div className='flex-1'>
-                                        {title ? (
-                                            <Title className='DialogTitle'>{title}</Title>
-                                        ) : null}
-                                        {info.desc ? (
-                                            <Description
-                                                className='DialogDescription text-slate-300'
-                                            >
-                                                {parse(info.desc)}
-                                            </Description>
-                                        ) : null}
-                                        {info.fee ? (
-                                            <div className='mb-4'>
-                                                <h5 className='text-sm font-bold'>
-                                                    Fee:
-                                                </h5>
-                                                <p className='text-slate-300'>
-                                                    {parse(info.fee)}
-                                                </p>
-                                            </div>
-                                        ) : null}
-                                        {info.rewardInfo ? (
-                                            <div className='mb-4'>
-                                                <h5 className='text-sm font-bold'>
-                                                    Reward details:
-                                                </h5>
-                                                <ul className='text-slate-300 pl-5'>
-                                                    {info.rewardInfo.map((i, index)=>{
-                                                        return(
-                                                            <li key={index} className='list-disc'>{i}</li>
-                                                        )
-                                                    })}
-                                                </ul>
-                                            </div>
-                                        ) : null}
-                                        {info.milestoneInfo.length ? (
-                                            <div className='mb-4'>
-                                                <h5 className='text-sm font-bold'>
-                                                    Milestone details:
-                                                </h5>
-                                                <ul className='text-slate-300 pl-5'>
-                                                    {info.milestoneInfo.map((i, index)=>{
-                                                        return(
-                                                            <li key={index} className='list-disc'>{i}</li>
-                                                        )
-                                                    })}
-                                                </ul>
-                                            </div>
-                                        ) : null}
-                                        {info.siteLink ? (
-                                            <a href={info.siteLink} target='_blank' onClick={onDetailsClick} className='text-blue-400 underline hover:text-teal-600'>View more details</a>
-                                        ): null}
-                                    </div>
-                                </FlexDiv>
-                            )}
-                            <D.Close asChild className='DialogClose'>
-                                <Close
-                                    className='DialogCloseButton'
-                                    aria-label='Close dialog'
-                                    onClick={onClose}
-                                >
-                                    <FaTimes
-                                        height='1.5rem'
-                                        width='1.5rem'
-                                        color='white'
-                                    />
-                                </Close>
-                            </D.Close>
-                        </Content>
-                    </div>
+                                    {info.rewardInfo ? (
+                                        <div className='mb-4'>
+                                            <h5 className='text-sm font-bold'>
+                                                Reward details:
+                                            </h5>
+                                            <ul className='text-slate-300 pl-5'>
+                                                {info.rewardInfo.map((i, index) => {
+                                                    return (
+                                                        <li key={index} className='list-disc'>{i}</li>
+                                                    )
+                                                })}
+                                            </ul>
+                                        </div>
+                                    ) : null}
+                                    {info.milestoneInfo.length ? (
+                                        <div className='mb-4'>
+                                            <h5 className='text-sm font-bold'>
+                                                Milestone details:
+                                            </h5>
+                                            <ul className='text-slate-300 pl-5'>
+                                                {info.milestoneInfo.map((i, index) => {
+                                                    return (
+                                                        <li key={index} className='list-disc'>{i}</li>
+                                                    )
+                                                })}
+                                            </ul>
+                                        </div>
+                                    ) : null}
+                                    {info.siteLink ? (
+                                        <a href={info.siteLink} target='_blank' onClick={onDetailsClick} className='text-blue-400 underline hover:text-teal-600'>View more details</a>
+                                    ) : null}
+                                </div>
+                            </FlexDiv>
+                        )}
+                        <D.Close asChild className='DialogClose'>
+                            <Close
+                                className='DialogCloseButton'
+                                aria-label='Close dialog'
+                                onClick={onClose}
+                            >
+                                <FaTimes
+                                    height='1.5rem'
+                                    width='1.5rem'
+                                    color='white'
+                                />
+                            </Close>
+                        </D.Close>
+                    </Content>
+                </div>
             </D.Portal>
         </D.Root>
     );
@@ -203,11 +203,23 @@ const Content = styled(D.Content)`
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    overflow: auto;
     color: white;
     &:focus {
         outline: none;
     }
     z-index: 1001;
+
+    @media (max-width: 767px) {
+        left: 0;
+        top: auto;
+        bottom: 0;
+        transform: none;
+        width: 100vw;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        animation: contentShowBottom 300ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
 
     @keyframes contentShow {
         from {
@@ -217,6 +229,17 @@ const Content = styled(D.Content)`
         to {
             opacity: 1;
             transform: translate(-50%, -50%) scale(1);
+        }
+    }
+
+    @keyframes contentShowBottom {
+        from {
+            opacity: 0;
+            transform: translate(0, 48%) scale(0.96);
+        }
+        to {
+            opacity: 1;
+            transform: translate(0, 0) scale(1);
         }
     }
 `;

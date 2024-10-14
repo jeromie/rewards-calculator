@@ -5,8 +5,14 @@
 :root {
     --grey-1: #0e1726;
     --grey-2: #171f2f;
+    --grey-3: #cecece;
+    --grey-4: #9f9f9f;
     --border-width: 2px;
     --border-1: #404040;
+    --brand: #0369a1;
+    --brand-2: #14b289;
+    --yellow-1: #ffda7b;
+    --yellow-2: #a27c1f;
 }
 
 body  {

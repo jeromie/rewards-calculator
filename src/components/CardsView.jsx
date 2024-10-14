@@ -4,21 +4,22 @@ import PropTypes from 'prop-types';
 import Dialog from './Dialog';
 import AddCard from './AddCard';
 import { v4 as uuidv4 } from 'uuid';
+import { FlexDiv } from '../utils/helpers';
 
 const defaultData = {
-    cardName: 'test',
+    cardName: 'My Awesome Card',
     points: '1',
     spent: '100',
     reward: '1',
-    rewardPoint: '1',
-    accelerator: '5',
-    acceleratedType: 'Bonus'
+    rewardPoint: '2',
+    accelerator: '3',
+    acceleratedType: 'Bonus',
 }
 
 // Toggle button for switching views
 const ViewToggleButton = ({ active, onClick, label, classes }) => (
     <button
-        className={` ${classes} ${!active ? 'bg-sky-700 text-white' : 'bg-sky-950 text-cyan-800'} p-1 px-3 mb-6 sm:mb-10 rounded`}
+        className={` ${classes} ${!active ? 'bg-sky-700 text-white' : 'bg-sky-950 text-cyan-800'} p-1 px-3 rounded`}
         onClick={onClick}
         disabled={active}
     >
@@ -35,7 +36,7 @@ ViewToggleButton.propTypes = {
 
 const CardsView = ({ items, value }) => {
     const [isListView, setIsListView] = useState(false)
-    const [showAddCard, setShowAddCard] = useState(false)
+    const [showAddCard, setShowAddCard] = useState({ show: false, isEdit: false })
     const [cards, setCards] = useState(items)
     const [customCardData, setCustomCardData] = useState(defaultData)
 
@@ -47,21 +48,21 @@ const CardsView = ({ items, value }) => {
         } else {
             setCards(getCards);
         }
-    }, [getCards, items])
+    }, [items])
 
     const onAddCard = () => {
-        setShowAddCard(true);
+        setShowAddCard({ show: true, isEdit: false });
         setCustomCardData(defaultData);
     }
 
     const onSaveCard = (data) => {
         const { cardName: name, spent: per, isCustom = true, id, ...rest } = data;
         let updatedCards;
-    
+
         if (id) {
             const localData = JSON.parse(localStorage.getItem('cardAdded')) || [];
             updatedCards = localData.map(x =>
-                x.id === id ? { ...x, name, per } : x
+                x.id === id ? { ...data, name, per } : x
             );
         } else {
             const id = uuidv4();
@@ -69,10 +70,10 @@ const CardsView = ({ items, value }) => {
             const newCard = { id, name, per, miles, isCustom, ...rest };
             updatedCards = [newCard, ...cards];
         }
-    
+
         setCards(updatedCards);
         localStorage.setItem("cardAdded", JSON.stringify(updatedCards));
-        setShowAddCard(false);
+        setShowAddCard({ show: false, isEdit: false });
     };
 
     const onEdit = (id) => {
@@ -85,36 +86,39 @@ const CardsView = ({ items, value }) => {
                 spent: singleCard.per,
             };
             setCustomCardData(updatedCard);
-            setShowAddCard(true);
+            setShowAddCard({ show: true, isEdit: true });
         }
     }
 
     const onDelete = (id) => {
-        const deleteCard = cards.filter((card)=>card.id !==id);
+        const deleteCard = cards.filter((card) => card.id !== id);
         setCards(deleteCard)
         localStorage.setItem("cardAdded", JSON.stringify(deleteCard));
     }
 
     return (
         <>
-            <button onClick={onAddCard} className='text-white'>
-                + Add card
-            </button>
 
-            <div className='flex justify-center'>
-                <ViewToggleButton
-                    active={isListView}
-                    onClick={() => setIsListView(true)}
-                    label="List view"
-                    classes='rounded-tr-none rounded-br-none'
-                />
-                <ViewToggleButton
-                    active={!isListView}
-                    onClick={() => setIsListView(false)}
-                    label="Grid view"
-                    classes='rounded-tl-none rounded-bl-none'
-                />
-            </div>
+            <FlexDiv className='justify-between items-center mb-6 sm:mb-10'>
+                <button onClick={onAddCard} className='text-white bg-sky-700 rounded px-4 py-1 '>
+                    + Add card
+                </button>
+
+                <FlexDiv className='justify-center'>
+                    <ViewToggleButton
+                        active={isListView}
+                        onClick={() => setIsListView(true)}
+                        label="List view"
+                        classes='rounded-tr-none rounded-br-none'
+                    />
+                    <ViewToggleButton
+                        active={!isListView}
+                        onClick={() => setIsListView(false)}
+                        label="Grid view"
+                        classes='rounded-tl-none rounded-bl-none'
+                    />
+                </FlexDiv>
+            </FlexDiv>
 
             <div className={`flex flex-wrap justify-center ${isListView ? 'gap-2 sm:gap-1' : 'gap-6'}`}>
                 {cards.map((data, index) => {
@@ -126,9 +130,9 @@ const CardsView = ({ items, value }) => {
                 })}
             </div>
 
-            {showAddCard && (
-                <Dialog title='Add a Card' desc='Enter card details' onClose={()=>setShowAddCard(false)}>
-                    <AddCard onSave={onSaveCard} data={customCardData}  />
+            {showAddCard.show && (
+                <Dialog title={`${showAddCard.isEdit ? 'Edit' : 'Add'} Card`} desc='Enter your reward earning rate and redemption rate below' maxWidth='500px' onClose={() => setShowAddCard({ show: false, isEdit: false })}>
+                    <AddCard onSave={onSaveCard} data={customCardData} />
                 </Dialog>
             )}
         </>

@@ -6,7 +6,7 @@ const Header = ({ value, setValue }) => {
 
     const onChange = (e) => {
         setValue(e.target.value)
-        if(e.target.value === '') {
+        if (e.target.value === '') {
             setValue('0')
         }
         ReactGA.event({
@@ -52,7 +52,7 @@ export default Header
 
 const HeaderWrapper = styled.header`
     color: white;
-    background: linear-gradient(135deg, #14b289, #1e2696);
+    background: linear-gradient(135deg, var(--brand-2), var(--brand));
     background-size: 400% 400%;
 
     animation: GradientMove 20s ease infinite;

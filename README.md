@@ -8,7 +8,7 @@ This project is a **Credit Card Rewards Points Calculator**, designed to help us
 
 - **Reward Points Calculation**: Enter purchase details to see estimated points/cashback for different cards.
 - **Multiple Credit Card Programs**: Compare rewards across a wide selection of credit cards.
-- **Custom Reward Rates** _(upcoming feature)_: Ability to manually input reward rates if a card is not listed.
+- **Custom Reward Rates**: Ability to manually input reward rates if a card is not listed.
 - **Filter by Card Type** _(upcoming feature)_: Easily browse and filter cards based on features or categories.
 
 ## Roadmap

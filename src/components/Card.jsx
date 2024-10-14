@@ -2,14 +2,29 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components'
 import Tooltip from './Tooltip';
 import { FlexDiv } from '../utils/helpers';
-import { LiaInfoCircleSolid } from 'react-icons/lia';
+import { LiaInfoCircleSolid, LiaPencilAltSolid, LiaTrashAlt } from 'react-icons/lia';
 import { useState } from 'react';
 import Dialog from './Dialog';
 import ReactGA from 'react-ga4';
-import { FaEdit, FaTrash } from 'react-icons/fa';
+import CustomCard from './CustomCard';
 
 const Card = ({ info, value, isListView, onEdit, onDelete }) => {
-    const { id, img, cat, name, per, points, miles, accelerator, isMiles, isCashback, isHotel, acceleratedType, additionalInfo, isCustom } = info;
+    const {
+        id,
+        img,
+        cat,
+        name,
+        per,
+        points,
+        miles,
+        accelerator,
+        isMiles,
+        isCashback,
+        isHotel,
+        acceleratedType,
+        additionalInfo,
+        isCustom
+    } = info;
 
     const [isDialogVisible, setIsDialogVisible] = useState(false)
 
@@ -35,40 +50,43 @@ const Card = ({ info, value, isListView, onEdit, onDelete }) => {
         <>
             <CardWrapper
                 as={isCustom && 'div'}
-                onClick={isCustom ? undefined : onCardClick}
+                onClick={isCustom ? () => { } : onCardClick}
                 $isListView={isListView}
-                className={`card border border-slate-700 flex  justify-center p-4 pb-1 w-full ${isListView ? 'flex-col sm:flex-row pt-3 sm:pt-0 pb-0 items-start sm:items-center' : 'max-w-sm flex-col pt-0 items-start sm:items-center'}`}
+                $isCustom={isCustom}
+                className={`card border border-slate-700 flex justify-center w-full ${isListView ? 'flex-col sm:flex-row px-3 pt-3 sm:pt-0 pb-0 items-start sm:items-center' : 'max-w-sm flex-col pt-0 items-start sm:items-center p-4 pb-1'}`}
             >
                 <div className={`flex ${isListView ? 'sm:w-60 items-end justify-start sm:items-center ' : ' sm:flex-col items-center'}`}>
-                    {!isCustom && (
-                        <div className='img-wrapper'>
-                        <img src={img} alt='card image' className='rounded border-neutral-700 border' aria-hidden />
+                    <div className='img-wrapper'>
+                        {isCustom ?
+                            <CustomCard name={name} isListView={isListView} />
+                            : (
+                                <img src={img} alt='card image' className='card-img rounded border-neutral-700 border' aria-hidden />
+                            )}
                     </div>
-                    )}
                     <h2 className={`card-name text-md sm:text-lg ml-2 sm:ml-0 font-bold mt-2 text-white flex-1 text-left  ${!isListView ? 'sm:text-center' : ''}`}>
                         {cat} {name}
                     </h2>
                 </div>
 
                 {isCustom && (
-                    <>
-                        <button onClick={()=> onEdit(id)}><FaEdit /></button>
-                        <button onClick={()=> onDelete(id)}><FaTrash /></button>
-                    </>
+                    <FlexDiv className={`${isListView ? 'sm:flex-col top-2 right-3 gap-3 sm:bottom-auto sm:top-3 sm:right-6 sm:gap-3' : 'flex-row top-3 right-3 gap-2'} absolute`}>
+                        <button onClick={() => onEdit(id)} className='text-slate-600 hover:text-slate-300 transition'><LiaPencilAltSolid size='1.25rem' /></button>
+                        <button onClick={() => onDelete(id)} className='text-slate-600 hover:text-red-600 transition'><LiaTrashAlt size='1.25rem' /></button>
+                    </FlexDiv>
                 )}
 
                 {isListView ?
                     (
-                        <table className='reward-table mx-0 sm:mx-2 my-2 table-fixed'>
+                        <table className='reward-table mx-0 sm:mx-2 my-2 table-fixed text-center'>
                             <tbody className='text-slate-300'>
                                 <tr className='border-b border-neutral-700'>
-                                    <td className='text-left text-slate-400'>Regular Spends</td>
+                                    <td className='text-left text-slate-400 pb-2'>Regular Spends</td>
                                     <td >{earnedPoints} points</td>
                                     <td >{isCashback && '₹'}{earnedRewards} {rewardText}</td>
                                     <td >{earnedRate}%</td>
                                 </tr>
                                 <tr>
-                                    <td className='text-left text-slate-400'> {acceleratedType}</td>
+                                    <td className='text-left text-slate-400 pt-2'> {acceleratedType}</td>
                                     <td>{acceleratedPoints} points</td>
                                     <td>{isCashback && '₹'}{acceleratedRewards} {rewardText}</td>
                                     <td>{acceleratedRate}%</td>
@@ -120,9 +138,9 @@ const Card = ({ info, value, isListView, onEdit, onDelete }) => {
             </CardWrapper>
 
             {isDialogVisible && (
-                <Dialog 
-                    title={cat + ' ' + name} 
-                    onClose={()=>setIsDialogVisible(false)} 
+                <Dialog
+                    title={cat + ' ' + name}
+                    onClose={() => setIsDialogVisible(false)}
                     info={info}
                 />
             )}
@@ -142,7 +160,7 @@ export default Card
 
 const CardWrapper = styled.button`
     background-color: var(--grey-2);
-    cursor: pointer;
+    cursor: ${({ $isCustom }) => $isCustom ? 'default' : 'pointer'};
     position: relative;
     border-radius: 10px;
     transition: all 0.3s ease-in-out;
@@ -159,7 +177,8 @@ const CardWrapper = styled.button`
         transform: perspective(400px) rotateY(30deg);
         transform-style: preserve-3d;
         transition: transform 0.3s ease-in-out;
-        img {
+        pointer-events: none;
+        .card-img{
             transition: transform 0.3s ease-in-out;
             transform: rotateX(10deg) translateZ(30px) translateX(-20px);
             transform-origin: 0 0;
@@ -172,7 +191,7 @@ const CardWrapper = styled.button`
 
     &:hover .img-wrapper {
         transform: perspective(350px) rotateY(0deg);
-        img {
+        .card-img {
             transform: rotateX(0deg) translateZ(60px) translateX(0px) translateY(-5px);
             box-shadow: 0 5px 10px 0px hsl(0deg 0% 22.32% / 50%);
         }
@@ -183,9 +202,13 @@ const CardWrapper = styled.button`
         border-radius: 0;
         .img-wrapper {
             transform: none;
-            img {
+            .card-img {
                 max-height: 30px;
                 transform: none;
+            }
+
+            .custom-card{
+
             }
         }
         .card-name{
@@ -195,11 +218,20 @@ const CardWrapper = styled.button`
             padding-left: 8px;
         }
         &:hover .img-wrapper {
-        img {
-            transform: rotateX(0deg) translateZ(80px) translateX(0px) translateY(0px);
-            box-shadow: none;
+            .card-img {
+                transform: rotateX(0deg) translateZ(80px) translateX(0px) translateY(0px);
+                box-shadow: none;
+            }
         }
-    }
+
+        @media (max-width: 767px){
+            .img-wrapper {
+                display: none;    
+            }
+            .card-name {
+                padding: 0;
+            }
+        }
     `}
 
 `
