@@ -49,7 +49,7 @@ const AddCard = ({ onSave, data }) => {
 
     return (
         <FormWrapper>
-            <form onSubmit={onSubmit}>
+            <form onSubmit={onSubmit} id='cardForm'>
                 <FlexDiv className="gap-2 items-end flex-wrap">
                     <label htmlFor="cardName">
                         Card Name:
