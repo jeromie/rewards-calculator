@@ -1,11 +1,23 @@
-import { useState } from "react"
-import { FlexDiv } from "../utils/helpers"
+import { useEffect, useReducer, useState } from "react"
+import { FlexDiv, generateRandomColor } from "../utils/helpers"
 import PropTypes from "prop-types"
 import styled from "styled-components";
+
+function getCardColor(state, action) {
+    if (action.type === 'generate_color') {
+        return {
+            color1: generateRandomColor(),
+            color2: generateRandomColor()
+        };
+    }
+    throw Error('Unknown action.');
+}
 
 const AddCard = ({ onSave, data }) => {
 
     const [formData, setFormData] = useState(data);
+
+    const [color, dispatch] = useReducer(getCardColor, { color1: '', color2: '' });
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -17,8 +29,23 @@ const AddCard = ({ onSave, data }) => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        onSave(formData)
+        dispatch({ type: 'generate_color' });
     }
+
+    useEffect(() => {
+        if (color.color1 && color.color2) {
+            setFormData((prevData) => ({
+                ...prevData,
+                color,
+            }));
+        }
+    }, [color]);
+
+    useEffect(() => {
+        if (formData.color) {
+            onSave(formData);
+        }
+    }, [formData, onSave]);
 
     return (
         <FormWrapper>

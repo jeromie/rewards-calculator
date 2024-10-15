@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-function CustomCard({ name, isListView }) {
+function CustomCard({ name, isListView, color }) {
 	return (
-		<CCWrapper className="card-img" $isListView={isListView}>
-			<Bg />
+		<CCWrapper $color={color} className="card-img" $isListView={isListView}>
+			<Bg $color={color} />
 			<Chip />
 
 			<CCName>{name}</CCName>
@@ -20,7 +20,8 @@ function CustomCard({ name, isListView }) {
 
 CustomCard.propTypes = {
 	name: PropTypes.string,
-	isListView: PropTypes.bool
+	isListView: PropTypes.bool,
+	color: PropTypes.object
 }
 
 export default CustomCard;
@@ -39,21 +40,21 @@ const CCNum = styled.p`
 	position: absolute;
 	bottom: 18px;
 	left: 8px;
-	filter: drop-shadow(1px 1px 1px rgba(0,0,0, 0.3));
+	filter: drop-shadow(1px 1px 0px rgba(0,0,0, 0.6));
 `;
 
 const CCUser = styled.p`
 	position: absolute;
 	bottom: 6px;
 	left: 8px;
-	filter: drop-shadow(1px 1px 1px rgba(0,0,0, 0.3));
+	filter: drop-shadow(1px 1px 0px rgba(0,0,0, 0.6));
 `
 
 const CCExpiry = styled.p`
 	position: absolute;
 	bottom: 6px;
 	right: 8px;
-	filter: drop-shadow(1px 1px 1px rgba(0,0,0, 0.3));
+	filter: drop-shadow(1px 1px 0px rgba(0,0,0, 0.6));
 `;
 
 const Bg = styled.div`
@@ -62,7 +63,7 @@ const Bg = styled.div`
     right: -100px;
     width: 250px;
     height: 150px;
-    background: linear-gradient(20deg, var(--brand-2) 0%, var(--brand) 92%);
+    background: ${({ $color }) => `linear-gradient(20deg, ${$color.color1} 0%, ${$color.color2} 92%)`} ;
     border-top-left-radius: 100%;
 
     &::before {
@@ -72,7 +73,7 @@ const Bg = styled.div`
       right: -10px;
       width: 230px;
       height: 210px;
-      background: linear-gradient(20deg, var(--brand-2) 0%, var(--brand) 92%);
+	  background: ${({ $color }) => `linear-gradient(20deg, ${$color.color1} 0%, ${$color.color2} 92%)`} ;
       border-top-left-radius: 100%;
     }
 `
@@ -124,7 +125,7 @@ const CCWrapper = styled.div`
 	font-size: 8px;
 	overflow: hidden;
 	backface-visibility: hidden;
-    background: linear-gradient(20deg, var(--brand-2) 0%, var(--brand) 92%);
+    background: ${({ $color }) => `linear-gradient(20deg, ${$color.color1} 0%, ${$color.color2} 92%)`} ;
 
 	@media (max-width: 767px) {
 		${CCExpiry}, ${CCNum}, ${Chip}, ${CCUser} {

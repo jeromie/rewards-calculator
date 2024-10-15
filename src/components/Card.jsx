@@ -23,7 +23,8 @@ const Card = ({ info, value, isListView, onEdit, onDelete }) => {
         isHotel,
         acceleratedType,
         additionalInfo,
-        isCustom
+        isCustom,
+        color,
     } = info;
 
     const [isDialogVisible, setIsDialogVisible] = useState(false)
@@ -58,7 +59,7 @@ const Card = ({ info, value, isListView, onEdit, onDelete }) => {
                 <div className={`flex ${isListView ? 'sm:w-60 items-end justify-start sm:items-center ' : ' sm:flex-col items-center'}`}>
                     <div className='img-wrapper'>
                         {isCustom ?
-                            <CustomCard name={name} isListView={isListView} />
+                            <CustomCard name={name} isListView={isListView} color={color} />
                             : (
                                 <img src={img} alt='card image' className='card-img rounded border-neutral-700 border' aria-hidden />
                             )}
