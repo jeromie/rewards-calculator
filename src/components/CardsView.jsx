@@ -56,18 +56,18 @@ const CardsView = ({ items, value }) => {
     }
 
     const onSaveCard = (data) => {
-        const { cardName: name, spent: per, isCustom = true, id, ...rest } = data;
+        const { cardName: name, isCustom = true, id, ...rest } = data;
         let updatedCards;
 
         if (id) {
             const localData = JSON.parse(localStorage.getItem('cardAdded')) || [];
             updatedCards = localData.map(x =>
-                x.id === id ? { ...data, name, per } : x
+                x.id === id ? { ...data, name, miles: data.reward / data.rewardPoint } : x
             );
         } else {
             const id = uuidv4();
             const miles = data.reward / data.rewardPoint;
-            const newCard = { id, name, per, miles, isCustom, ...rest };
+            const newCard = { id, name, miles, isCustom, ...rest };
             updatedCards = [newCard, ...cards];
         }
 
@@ -83,7 +83,6 @@ const CardsView = ({ items, value }) => {
             const updatedCard = {
                 ...singleCard,
                 cardName: singleCard.name,
-                spent: singleCard.per,
             };
             setCustomCardData(updatedCard);
             setShowAddCard({ show: true, isEdit: true });
@@ -92,7 +91,7 @@ const CardsView = ({ items, value }) => {
 
     const onDelete = (id) => {
         const deleteCard = cards.filter((card) => card.id !== id);
-        setCards(deleteCard)
+        setCards(deleteCard);
         localStorage.setItem("cardAdded", JSON.stringify(deleteCard));
     }
 
@@ -124,15 +123,26 @@ const CardsView = ({ items, value }) => {
                 {cards.map((data, index) => {
                     return (
                         <React.Fragment key={index}>
-                            <Card info={data} value={value} isListView={isListView} onEdit={onEdit} onDelete={onDelete} />
+                            <Card
+                                info={data}
+                                value={value}
+                                isListView={isListView}
+                                onEdit={onEdit}
+                                onDelete={onDelete}
+                            />
                         </React.Fragment>
                     )
                 })}
             </div>
 
             {showAddCard.show && (
-                <Dialog title={`${showAddCard.isEdit ? 'Edit' : 'Add'} Card`} desc='Enter your reward earning rate and redemption rate below' maxWidth='500px' onClose={() => setShowAddCard({ show: false, isEdit: false })}>
-                    <AddCard onSave={onSaveCard} data={customCardData} />
+                <Dialog
+                    title={`${showAddCard.isEdit ? 'Edit' : 'Add'} Card`}
+                    desc='Enter your reward earning rate and redemption rate below'
+                    maxWidth='500px'
+                    onClose={() => setShowAddCard({ show: false, isEdit: false })}
+                >
+                    <AddCard onSave={onSaveCard} data={customCardData} isEdit={showAddCard.isEdit} />
                 </Dialog>
             )}
         </>

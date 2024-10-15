@@ -14,7 +14,7 @@ const Card = ({ info, value, isListView, onEdit, onDelete }) => {
         img,
         cat,
         name,
-        per,
+        spent,
         points,
         miles,
         accelerator,
@@ -28,13 +28,14 @@ const Card = ({ info, value, isListView, onEdit, onDelete }) => {
     } = info;
 
     const [isDialogVisible, setIsDialogVisible] = useState(false)
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
 
-    const earnedPoints = Math.floor(value / per * points)
-    const acceleratedPoints = Math.floor(value / per * points * accelerator)
+    const earnedPoints = Math.floor(value / spent * points)
+    const acceleratedPoints = Math.floor(value / spent * points * accelerator)
     const earnedRewards = Math.floor(earnedPoints * miles)
     const acceleratedRewards = Math.floor(acceleratedPoints * miles)
-    const earnedRate = ((earnedRewards / value || 0) * 100).toFixed(2)
-    const acceleratedRate = ((acceleratedRewards / value) * 100 || 0).toFixed(2)
+    const earnedRate = +((earnedRewards / value || 0) * 100).toFixed(2)
+    const acceleratedRate = +((acceleratedRewards / value) * 100 || 0).toFixed(2)
 
     const rewardText = isMiles ? 'Miles' : isCashback ? 'Cashback' : isHotel ? 'Hotels' : 'Reward'
 
@@ -45,6 +46,11 @@ const Card = ({ info, value, isListView, onEdit, onDelete }) => {
             action: 'card_click',
             label: cat + '_' + name,
         });
+    }
+
+    const onDeleteConfirm = () => {
+        onDelete(id)
+        setShowDeleteModal(false)
     }
 
     return (
@@ -72,7 +78,7 @@ const Card = ({ info, value, isListView, onEdit, onDelete }) => {
                 {isCustom && (
                     <FlexDiv className={`${isListView ? 'sm:flex-col top-2 right-3 gap-3 sm:bottom-auto sm:top-3 sm:right-6 sm:gap-3' : 'flex-row top-3 right-3 gap-2'} absolute`}>
                         <button onClick={() => onEdit(id)} className='text-slate-600 hover:text-slate-300 transition'><LiaPencilAltSolid size='1.25rem' /></button>
-                        <button onClick={() => onDelete(id)} className='text-slate-600 hover:text-red-600 transition'><LiaTrashAlt size='1.25rem' /></button>
+                        <button onClick={() => setShowDeleteModal(true)} className='text-slate-600 hover:text-red-600 transition'><LiaTrashAlt size='1.25rem' /></button>
                     </FlexDiv>
                 )}
 
@@ -145,6 +151,27 @@ const Card = ({ info, value, isListView, onEdit, onDelete }) => {
                     info={info}
                 />
             )}
+
+            {showDeleteModal && (
+                <Dialog
+                    title={`Are you sure you want to delete ${name}?`}
+                    desc='This will remove the card from your list of cards'
+                    maxWidth='450px'
+                    onClose={() => setShowDeleteModal(false)}
+                >
+                    <FlexDiv className='gap-4 mt-4'>
+                        <button
+                            onClick={onDeleteConfirm}
+                            className="py-2 px-4 rounded-md bg-red-800"
+                        >
+                            Yes, delete it!
+                        </button>
+                        <button onClick={() => setShowDeleteModal(false)} className="py-2 px-4 rounded-md bg-sky-700">
+                            No, keep it
+                        </button>
+                    </FlexDiv>
+                </Dialog>
+            )}
         </>
     )
 }
@@ -154,7 +181,7 @@ Card.propTypes = {
     value: PropTypes.string,
     isListView: PropTypes.bool,
     onEdit: PropTypes.func,
-    onDelete: PropTypes.func
+    onDelete: PropTypes.func,
 }
 
 export default Card

@@ -2,7 +2,7 @@ export const options = [
 	{
 		cat: "AmEx",
 		name: "Platinum Travel",
-		per: 50,
+		spent: 50,
 		points: 1,
 		miles: 0.5,
 		img: "/images/amex-pt.avif",
@@ -32,7 +32,7 @@ export const options = [
 	{
 		cat: "AmEx",
 		name: "Membership Rewards",
-		per: 50,
+		spent: 50,
 		points: 1,
 		miles: 0.5,
 		img: "/images/mrcc.avif",
@@ -59,7 +59,7 @@ export const options = [
 	{
 		cat: "Axis",
 		name: "ACE",
-		per: 100,
+		spent: 100,
 		points: 1.5,
 		miles: 1,
 		img: "/images/ace.jpg",
@@ -84,7 +84,7 @@ export const options = [
 	{
 		cat: "Axis",
 		name: "Atlas",
-		per: 100,
+		spent: 100,
 		points: 2,
 		miles: 2,
 		img: "/images/atlas.png",
@@ -111,7 +111,7 @@ export const options = [
 	{
 		cat: "Axis",
 		name: "Magnus",
-		per: 200,
+		spent: 200,
 		points: 12,
 		miles: 2 / 5,
 		img: "/images/magnus.png",
@@ -136,7 +136,7 @@ export const options = [
 	{
 		cat: "HDFC",
 		name: "Infinia Metal",
-		per: 150,
+		spent: 150,
 		points: 5,
 		miles: 1,
 		img: "/images/infinia.png",
@@ -164,7 +164,7 @@ export const options = [
 	{
 		cat: "HDFC",
 		name: "Millennia",
-		per: 100,
+		spent: 100,
 		points: 1,
 		miles: 1,
 		img: "/images/millennia.png",
@@ -193,7 +193,7 @@ export const options = [
 	{
 		cat: "HDFC",
 		name: "Regalia Gold",
-		per: 150,
+		spent: 150,
 		points: 4,
 		miles: 0.5,
 		img: "/images/regalia.png",
@@ -225,7 +225,7 @@ export const options = [
 	{
 		cat: "ICICI",
 		name: "Emeralde Private Metal",
-		per: 200,
+		spent: 200,
 		points: 6,
 		miles: 1,
 		img: "/images/emeralde-private.png",
@@ -253,7 +253,7 @@ export const options = [
 	{
 		cat: "ICICI",
 		name: "Adani one Signature",
-		per: 100,
+		spent: 100,
 		points: 1.5,
 		miles: 1,
 		img: "/images/adani-sign.webp",
@@ -279,7 +279,7 @@ export const options = [
 	{
 		cat: "SBI",
 		name: "Cashback",
-		per: 100,
+		spent: 100,
 		points: 1,
 		miles: 1,
 		img: "/images/sbicashback.png",
@@ -304,7 +304,7 @@ export const options = [
 	{
 		cat: "SBI",
 		name: "Elite",
-		per: 100,
+		spent: 100,
 		points: 2,
 		miles: 0.25,
 		img: "/images/sbielite.png",
@@ -331,7 +331,7 @@ export const options = [
 	// {
 	//   cat: "",
 	//   name: "",
-	//   per: 1,
+	//   spent: 1,
 	//   points: 1,
 	//   miles: 0,
 	//   img: "/images/.png",

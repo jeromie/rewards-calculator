@@ -13,7 +13,7 @@ function getCardColor(state, action) {
     throw Error('Unknown action.');
 }
 
-const AddCard = ({ onSave, data }) => {
+const AddCard = ({ onSave, data, isEdit }) => {
 
     const [formData, setFormData] = useState(data);
 
@@ -29,7 +29,11 @@ const AddCard = ({ onSave, data }) => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        dispatch({ type: 'generate_color' });
+        if (isEdit) {
+            onSave(formData)
+        } else {
+            dispatch({ type: 'generate_color' })
+        }
     }
 
     useEffect(() => {
@@ -42,10 +46,10 @@ const AddCard = ({ onSave, data }) => {
     }, [color]);
 
     useEffect(() => {
-        if (formData.color) {
+        if (formData.color && !isEdit) {
             onSave(formData);
         }
-    }, [formData, onSave]);
+    }, [formData, onSave, isEdit]);
 
     return (
         <FormWrapper>
@@ -146,7 +150,8 @@ const AddCard = ({ onSave, data }) => {
 
 AddCard.propTypes = {
     onSave: PropTypes.func,
-    data: PropTypes.object
+    data: PropTypes.object,
+    isEdit: PropTypes.bool
 }
 
 export default AddCard
