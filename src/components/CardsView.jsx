@@ -19,7 +19,7 @@ const defaultData = {
 // Toggle button for switching views
 const ViewToggleButton = ({ active, onClick, label, classes }) => (
     <button
-        className={` ${classes} ${!active ? 'bg-sky-700 text-white' : 'bg-sky-950 text-cyan-800'} p-1 px-3 rounded`}
+        className={` ${classes} ${!active ? 'btn' : 'bg-sky-950 text-cyan-800'} p-1 px-3 rounded`}
         onClick={onClick}
         disabled={active}
     >
@@ -99,7 +99,7 @@ const CardsView = ({ items, value }) => {
         <>
 
             <FlexDiv className='justify-between items-center mb-6 sm:mb-10'>
-                <button onClick={onAddCard} className='text-white bg-sky-700 rounded px-4 py-1 '>
+                <button onClick={onAddCard} className='btn rounded px-4 py-1'>
                     + Add card
                 </button>
 

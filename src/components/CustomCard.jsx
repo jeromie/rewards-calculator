@@ -63,7 +63,7 @@ const Bg = styled.div`
     right: -100px;
     width: 250px;
     height: 150px;
-    background: ${({ $color }) => `linear-gradient(20deg, ${$color.color1} 0%, ${$color.color2} 92%)`} ;
+    background: ${({ $color }) => `linear-gradient(50deg, ${$color.color1} 0%, ${$color.color2} 92%)`} ;
     border-top-left-radius: 100%;
 
     &::before {
@@ -73,7 +73,7 @@ const Bg = styled.div`
       right: -10px;
       width: 230px;
       height: 210px;
-	  background: ${({ $color }) => `linear-gradient(20deg, ${$color.color1} 0%, ${$color.color2} 92%)`} ;
+	  background: ${({ $color }) => `linear-gradient(300deg, ${$color.color1} 0%, ${$color.color2} 92%)`} ;
       border-top-left-radius: 100%;
     }
 `
@@ -125,7 +125,7 @@ const CCWrapper = styled.div`
 	font-size: 8px;
 	overflow: hidden;
 	backface-visibility: hidden;
-    background: ${({ $color }) => `linear-gradient(20deg, ${$color.color1} 0%, ${$color.color2} 92%)`} ;
+    background: ${({ $color }) => `linear-gradient(5deg, ${$color.color1} 0%, ${$color.color2} 92%)`} ;
 
 	@media (max-width: 767px) {
 		${CCExpiry}, ${CCNum}, ${Chip}, ${CCUser} {

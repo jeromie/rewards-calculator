@@ -52,10 +52,10 @@ export default Header
 
 const HeaderWrapper = styled.header`
     color: white;
-    background: linear-gradient(135deg, var(--brand-2), var(--brand));
+    background: linear-gradient(120deg, var(--brand-3) 0%, var(--brand-2) 50%, var(--brand) 100%);
     background-size: 400% 400%;
 
-    animation: GradientMove 20s ease infinite;
+    animation: GradientMove 15s ease infinite;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -72,6 +72,7 @@ const HeaderWrapper = styled.header`
         width: 600px;
         flex: 1;
         max-width: 650px;
+        text-shadow: 0 5px 10px var(--border-1);
     }
 
     label {

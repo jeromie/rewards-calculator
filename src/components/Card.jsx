@@ -129,8 +129,8 @@ const Card = ({ info, value, isListView, onEdit, onDelete }) => {
                                 </tr>
                                 <tr className='border-b border-neutral-700'>
                                     <td className='text-left text-slate-400'>{rewardText}</td>
-                                    <td >{earnedRewards}</td>
-                                    <td >{acceleratedRewards}</td>
+                                    <td >{isCashback && '₹'}{earnedRewards}</td>
+                                    <td >{isCashback && '₹'}{acceleratedRewards}</td>
                                 </tr>
                                 <tr>
                                     <td className='text-left text-slate-400'>Reward rate</td>
@@ -162,11 +162,11 @@ const Card = ({ info, value, isListView, onEdit, onDelete }) => {
                     <FlexDiv className='gap-4 mt-4'>
                         <button
                             onClick={onDeleteConfirm}
-                            className="py-2 px-4 rounded-md bg-red-800"
+                            className="py-2 px-4 rounded-md btn danger"
                         >
                             Yes, delete it!
                         </button>
-                        <button onClick={() => setShowDeleteModal(false)} className="py-2 px-4 rounded-md bg-sky-700">
+                        <button onClick={() => setShowDeleteModal(false)} className="py-2 px-4 rounded-md btn">
                             No, keep it
                         </button>
                     </FlexDiv>
@@ -198,6 +198,9 @@ const CardWrapper = styled.button`
         width: 100%;
         @media (max-width: 767px){
             font-size: 12px;
+            svg {
+                display: none;
+            }
         }
     }
 
@@ -217,11 +220,15 @@ const CardWrapper = styled.button`
         }
     }
 
-    &:hover .img-wrapper {
-        transform: perspective(350px) rotateY(0deg);
-        .card-img {
-            transform: rotateX(0deg) translateZ(60px) translateX(0px) translateY(-5px);
-            box-shadow: 0 5px 10px 0px hsl(0deg 0% 22.32% / 50%);
+    &:hover {
+        border-color: var(--brand-2);
+        box-shadow: 0 0 5px 0px var(--border-1);
+        .img-wrapper {
+            transform: perspective(350px) rotateY(0deg);
+            .card-img {
+                transform: rotateX(0deg) translateZ(60px) translateX(0px) translateY(-5px);
+                box-shadow: 0 5px 10px 0px hsl(0deg 0% 22.32% / 50%);
+            }
         }
     }
 

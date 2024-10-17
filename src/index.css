@@ -5,14 +5,17 @@
 :root {
     --grey-1: #0e1726;
     --grey-2: #171f2f;
-    --grey-3: #cecece;
+    --grey-3: #e2e2e2;
     --grey-4: #9f9f9f;
     --border-width: 2px;
     --border-1: #404040;
     --brand: #0369a1;
-    --brand-2: #14b289;
+    --brand-2: #088d6a;
+    --brand-3: #bba407;
     --yellow-1: #ffda7b;
     --yellow-2: #a27c1f;
+    --red-1: #991b1b;
+    --red-2: #7d0c0c;
 }
 
 body  {
@@ -26,4 +29,27 @@ body  {
     background-color: var(--grey-1);
     background-image: url('/images/pattern-1.svg');
     background-size: cover;
+}
+
+.btn {
+    color: var(--grey-3);
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(90deg, var(--brand) 0%, var(--brand-2) 100%);
+    background-size: 400%;
+}
+.btn:hover {
+    background-size: 100%;
+    box-shadow: 0 0 4px var(--brand-2);
+}
+.btn:active {
+    transform: scale(0.95);
+}
+.btn.danger{
+    background: var(--red-1);
+}
+.btn.danger:hover {
+    background: var(--red-2);
 }

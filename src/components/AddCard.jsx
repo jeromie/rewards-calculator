@@ -140,7 +140,7 @@ const AddCard = ({ onSave, data, isEdit }) => {
                     </small>
                 </FlexDiv>
 
-                <button type="submit" className="py-2 px-6 mt-8 rounded-md bg-sky-700">
+                <button type="submit" className="py-2 px-6 mt-8 rounded-md btn">
                     Save
                 </button>
             </form>
@@ -168,6 +168,7 @@ const StyledInput = styled.input`
     background-color: transparent;
     padding: 6px 4px;
     border: 2px solid var(--border-1);
+    border-radius: 4px;
     width: 50px;
     font-size: 20px;
     line-height: 1;
@@ -197,4 +198,5 @@ const CardName = styled(StyledInput)`
     border-top: none;
     border-left: none;
     border-right: none;
+    border-radius: 0;
 `

@@ -211,10 +211,10 @@ const Content = styled(D.Content)`
     z-index: 1001;
 
     @media (max-width: 767px) {
-        left: 0;
+        left: 50%;
         top: auto;
         bottom: 0;
-        transform: none;
+        transform: translate(-50%, 0);
         width: 100vw;
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
@@ -235,11 +235,11 @@ const Content = styled(D.Content)`
     @keyframes contentShowBottom {
         from {
             opacity: 0;
-            transform: translate(0, 48%) scale(0.96);
+            transform: translate(-50%, 48%) scale(0.96);
         }
         to {
             opacity: 1;
-            transform: translate(0, 0) scale(1);
+            transform: translate(-50%, 0) scale(1);
         }
     }
 `;
