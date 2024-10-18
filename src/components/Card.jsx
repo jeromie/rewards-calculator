@@ -12,19 +12,17 @@ const Card = ({ info, value, isListView, onEdit, onDelete }) => {
     const {
         id,
         img,
-        cat,
+        bank,
         name,
         spent,
         points,
         miles,
         accelerator,
-        isMiles,
-        isCashback,
-        isHotel,
         acceleratedType,
         additionalInfo,
         isCustom,
         color,
+        rewardType,
     } = info;
 
     const [isDialogVisible, setIsDialogVisible] = useState(false)
@@ -37,14 +35,15 @@ const Card = ({ info, value, isListView, onEdit, onDelete }) => {
     const earnedRate = +((earnedRewards / value || 0) * 100).toFixed(2)
     const acceleratedRate = +((acceleratedRewards / value) * 100 || 0).toFixed(2)
 
-    const rewardText = isMiles ? 'Miles' : isCashback ? 'Cashback' : isHotel ? 'Hotels' : 'Reward'
+    const rewardText = rewardType ? rewardType : 'Reward'
+    const isCashback = rewardType === 'Cashback'
 
     const onCardClick = () => {
         setIsDialogVisible(true)
         ReactGA.event({
             category: 'navigation',
             action: 'card_click',
-            label: cat + '_' + name,
+            label: bank + '_' + name,
         });
     }
 
@@ -71,7 +70,7 @@ const Card = ({ info, value, isListView, onEdit, onDelete }) => {
                             )}
                     </div>
                     <h2 className={`card-name text-md sm:text-lg ml-2 sm:ml-0 font-bold mt-2 text-white flex-1 text-left  ${!isListView ? 'sm:text-center' : ''}`}>
-                        {cat} {name}
+                        {bank} {name}
                     </h2>
                 </div>
 
@@ -146,7 +145,7 @@ const Card = ({ info, value, isListView, onEdit, onDelete }) => {
 
             {isDialogVisible && (
                 <Dialog
-                    title={cat + ' ' + name}
+                    title={bank + ' ' + name}
                     onClose={() => setIsDialogVisible(false)}
                     info={info}
                 />

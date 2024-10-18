@@ -18,6 +18,7 @@ export default function Dialog({
     top = '50%',
     info,
     desc,
+    isDrawer,
 }) {
 
     const onApplyClick = () => {
@@ -49,6 +50,7 @@ export default function Dialog({
                         width={width}
                         $maxWidth={maxWidth}
                         $maxHeight={maxHeight}
+                        $isDrawer={isDrawer}
                         top={top}
                     >
                         {children ? (
@@ -169,7 +171,8 @@ Dialog.propTypes = {
     imgHeight: PropTypes.number,
     top: PropTypes.string,
     info: PropTypes.object,
-    desc: PropTypes.string
+    desc: PropTypes.string,
+    isDrawer: PropTypes.bool
 }
 
 const Overlay = styled(D.Overlay)`
@@ -210,16 +213,29 @@ const Content = styled(D.Content)`
     }
     z-index: 1001;
 
-    @media (max-width: 767px) {
-        left: 50%;
-        top: auto;
-        bottom: 0;
-        transform: translate(-50%, 0);
-        width: 100vw;
-        border-bottom-left-radius: 0;
+    ${({ $isDrawer }) => $isDrawer ? `
+        left: initial;
+        right: 0;
+        transform: translate(0, 0);
+        height: 100vh;
+        border-top-right-radius: 0;
         border-bottom-right-radius: 0;
-        animation: contentShowBottom 300ms cubic-bezier(0.16, 1, 0.3, 1);
-    }
+        animation: contentShowRight 300ms cubic-bezier(0.16, 1, 0.3, 1);
+        @media (max-width: 767px) {
+            max-width: 85vw;
+        }
+    ` : `
+        @media (max-width: 767px) {
+            left: 50%;
+            top: auto;
+            bottom: 0;
+            transform: translate(-50%, 0);
+            width: 100vw;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            animation: contentShowBottom 300ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+    `}
 
     @keyframes contentShow {
         from {
@@ -235,11 +251,22 @@ const Content = styled(D.Content)`
     @keyframes contentShowBottom {
         from {
             opacity: 0;
-            transform: translate(-50%, 48%) scale(0.96);
+            transform: translate(-50%, 48%);
         }
         to {
             opacity: 1;
-            transform: translate(-50%, 0) scale(1);
+            transform: translate(-50%, 0);
+        }
+    }
+
+    @keyframes contentShowRight {
+        from {
+            opacity: 0;
+            transform: translate(50%, 0);
+        }
+        to {
+            opacity: 1;
+            transform: translate(0, 0);
         }
     }
 `;
